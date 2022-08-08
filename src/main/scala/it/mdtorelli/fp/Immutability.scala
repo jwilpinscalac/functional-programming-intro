@@ -1,5 +1,6 @@
 package it.mdtorelli.fp
 
+import it.mdtorelli.fp.library.*
 import util.*
 import scala.util.chaining.*
 
@@ -15,10 +16,14 @@ import scala.util.chaining.*
 
   val bankAccount = ImmutableBankAccount(balance = 0)
     .pipe { x =>
-      println("deposit 20")
+      IO.delay {
+        println("deposit 20")
+      }
       x.deposit(amount = 20)
     }.pipe { x =>
-      println("withdraw 5")
+      IO.delay {
+        println("withdraw 5")
+      }
       x.withdraw(amount = 5)
     }
   println(bankAccount.balance)
@@ -34,11 +39,11 @@ import scala.util.chaining.*
   printSeparator()
 
   val bankAccounts2 = (
-    ImmutableBankAccount(balance = 0).pipe { x => println("deposit 20"); x.deposit(amount = 20) }.pipe { x => println("withdraw 5"); x.withdraw(amount = 5) },
-    ImmutableBankAccount(balance = 0).pipe { x => println("deposit 20"); x.deposit(amount = 20) }.pipe { x => println("withdraw 5"); x.withdraw(amount = 5) }
+    ImmutableBankAccount(balance = 0).pipe { x => IO.delay { println("deposit 20") }; x.deposit(amount = 20) }.pipe { x => IO.delay { println("withdraw 5") }; x.withdraw(amount = 5) },
+    ImmutableBankAccount(balance = 0).pipe { x => IO.delay { println("deposit 20") }; x.deposit(amount = 20) }.pipe { x => IO.delay { println("withdraw 5") }; x.withdraw(amount = 5) },
   )
   println(bankAccounts2)
 
-  // uh-oh! the behavior is not the same!
+  // yay! they behave the same now!
 
   printSeparator()
