@@ -16,8 +16,16 @@ import scala.util.chaining.*
     def withdraw(amount: Int): Unit = currentBalance -= amount
 
   val bankAccount = MutableBankAccount(initialBalance = 0)
-    .tap(_.deposit(amount = 20))
-    .tap(_.withdraw(amount = 5))
+    .tap { x =>
+      println("deposit 20")
+      x.deposit(amount = 20)
+    }
+    .tap { x =>
+      println("withdraw 5")
+      x.withdraw(amount = 5)
+    }
   println(bankAccount.balance)
+  
+  // is still referential transparent?
 
   printSeparator()

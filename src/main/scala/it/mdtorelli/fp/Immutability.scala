@@ -12,8 +12,15 @@ import scala.util.chaining.*
     def withdraw(amount: Int): ImmutableBankAccount = ImmutableBankAccount(balance - amount)
 
   val bankAccount = ImmutableBankAccount(balance = 0)
-    .pipe(_.deposit(amount = 20))
-    .pipe(_.withdraw(amount = 5))
+    .pipe { x =>
+      println("deposit 20")
+      x.deposit(amount = 20)
+    }.pipe { x =>
+      println("withdraw 5")
+      x.withdraw(amount = 5)
+    }
   println(bankAccount.balance)
+
+  // is still referential transparent?
 
   printSeparator()
