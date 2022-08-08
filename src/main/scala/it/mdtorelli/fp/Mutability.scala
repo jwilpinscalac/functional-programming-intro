@@ -14,11 +14,9 @@ import it.mdtorelli.fp.util.*
 
     def withdraw(amount: Int): Unit = currentBalance -= amount
 
-  val bankAccount =
-    val result = MutableBankAccount(initialBalance = 0)
-    result.deposit(amount = 20)
-    result.withdraw(amount = 5)
-    result
+  val bankAccount = MutableBankAccount(initialBalance = 0)
+    .tap(_.deposit(amount = 20))
+    .tap(_.withdraw(amount = 5))
   println(bankAccount.balance)
 
   printSeparator()

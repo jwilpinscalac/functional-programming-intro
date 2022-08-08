@@ -11,8 +11,8 @@ import util.*
     def withdraw(amount: Int): ImmutableBankAccount = ImmutableBankAccount(balance - amount)
 
   val bankAccount = ImmutableBankAccount(balance = 0)
-    .deposit(amount = 20)
-    .withdraw(amount = 5)
+    .pipe(_.deposit(amount = 20))
+    .pipe(_.withdraw(amount = 5))
   println(bankAccount.balance)
 
   printSeparator()
