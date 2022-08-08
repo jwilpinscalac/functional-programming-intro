@@ -37,3 +37,13 @@ import scala.util.chaining.*
   println(bankAccounts)
 
   printSeparator()
+
+  val bankAccounts2 = (
+    MutableBankAccount(initialBalance = 0).tap { x => println("deposit 20"); x.deposit(amount = 20) }.tap { x => println("withdraw 5"); x.withdraw(amount = 5) },
+    MutableBankAccount(initialBalance = 0).tap { x => println("deposit 20"); x.deposit(amount = 20) }.tap { x => println("withdraw 5"); x.withdraw(amount = 5) }
+  )
+  println(bankAccounts2)
+
+  // uh-oh! the behavior is not the same!
+
+  printSeparator()

@@ -32,3 +32,13 @@ import scala.util.chaining.*
   println(bankAccounts)
 
   printSeparator()
+
+  val bankAccounts2 = (
+    ImmutableBankAccount(balance = 0).pipe { x => println("deposit 20"); x.deposit(amount = 20) }.pipe { x => println("withdraw 5"); x.withdraw(amount = 5) },
+    ImmutableBankAccount(balance = 0).pipe { x => println("deposit 20"); x.deposit(amount = 20) }.pipe { x => println("withdraw 5"); x.withdraw(amount = 5) }
+  )
+  println(bankAccounts2)
+
+  // uh-oh! the behavior is not the same!
+
+  printSeparator()
