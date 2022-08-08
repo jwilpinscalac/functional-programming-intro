@@ -2,7 +2,6 @@ package it.mdtorelli.fp
 
 import it.mdtorelli.fp.library.*
 import it.mdtorelli.fp.util.*
-import scala.util.chaining.*
 
 @main def Mutability(args: String*): Unit =
   printSeparator()
@@ -18,20 +17,18 @@ import scala.util.chaining.*
 
     override def toString: String = s"MutableBankAccount($balance)"
 
-  val bankAccount = MutableBankAccount(initialBalance = 0)
-    .tap { x =>
-      IO.delay {
-        println("deposit 20")
-      }
+  val bankAccount = IO.delay(MutableBankAccount(initialBalance = 0))
+    .map { x =>
+      println("deposit 20")
       x.deposit(amount = 20)
+      x
     }
-    .tap { x =>
-      IO.delay {
-        println("withdraw 5")
-      }
+    .map { x =>
+      println("withdraw 5")
       x.withdraw(amount = 5)
+      x
     }
-  println(bankAccount.balance)
+  println(bankAccount.map(_.balance))
   
   // is still referential transparent?
   // substitution model:
@@ -44,11 +41,11 @@ import scala.util.chaining.*
   printSeparator()
 
   val bankAccounts2 = (
-    MutableBankAccount(initialBalance = 0).tap { x => IO.delay { println("deposit 20") }; x.deposit(amount = 20) }.tap { x => IO.delay { println("withdraw 5") }; x.withdraw(amount = 5) },
-    MutableBankAccount(initialBalance = 0).tap { x => IO.delay { println("deposit 20") }; x.deposit(amount = 20) }.tap { x => IO.delay { println("withdraw 5") }; x.withdraw(amount = 5) }
+    IO.delay(MutableBankAccount(initialBalance = 0)).map { x => println("deposit 20"); x.deposit(amount = 20); x }.map { x => println("withdraw 5"); x.withdraw(amount = 5); x },
+    IO.delay(MutableBankAccount(initialBalance = 0)).map { x => println("deposit 20"); x.deposit(amount = 20); x }.map { x => println("withdraw 5"); x.withdraw(amount = 5); x }
   )
   println(bankAccounts2)
 
-  // yay! they behave the same now!
+  // yay! they still behave the same!
 
   printSeparator()
