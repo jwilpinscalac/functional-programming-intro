@@ -15,6 +15,8 @@ import scala.util.chaining.*
 
     def withdraw(amount: Int): Unit = currentBalance -= amount
 
+    override def toString: String = s"MutableBankAccount($balance)"
+
   val bankAccount = MutableBankAccount(initialBalance = 0)
     .tap { x =>
       println("deposit 20")
@@ -27,5 +29,11 @@ import scala.util.chaining.*
   println(bankAccount.balance)
   
   // is still referential transparent?
+  // substitution model:
+
+  printSeparator()
+  
+  val bankAccounts = (bankAccount, bankAccount)
+  println(bankAccounts)
 
   printSeparator()
