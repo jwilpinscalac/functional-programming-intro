@@ -1,6 +1,7 @@
 package it.mdtorelli.fp
 
 import it.mdtorelli.fp.util.*
+import scala.util.chaining.*
 
 @main def Mutability(args: String*): Unit =
   printSeparator()

@@ -1,6 +1,7 @@
 package it.mdtorelli.fp
 
 import util.*
+import scala.util.chaining.*
 
 @main def Immutability(args: String*): Unit =
   printSeparator()
