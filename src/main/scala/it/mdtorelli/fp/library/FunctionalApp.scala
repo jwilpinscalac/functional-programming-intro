@@ -1,6 +1,6 @@
 package it.mdtorelli.fp.library
 
-import it.mdtorelli.fp.library.console.*
+import it.mdtorelli.fp.library.console.FunctionalConsole.*
 
 trait FunctionalApp extends App:
   def run: IO[Any]

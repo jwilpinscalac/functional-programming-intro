@@ -1,8 +1,7 @@
 package it.mdtorelli.fp
 
 import it.mdtorelli.fp.library.*
-import it.mdtorelli.fp.library.console.*
-import it.mdtorelli.fp.util.*
+import it.mdtorelli.fp.library.console.FunctionalConsole.*
 
 private object MutabilityProgram:
   final class MutableBankAccount(initialBalance: Int):

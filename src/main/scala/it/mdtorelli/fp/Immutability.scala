@@ -1,8 +1,7 @@
 package it.mdtorelli.fp
 
 import it.mdtorelli.fp.library.*
-import it.mdtorelli.fp.library.console.*
-import util.*
+import it.mdtorelli.fp.library.console.FunctionalConsole.*
 
 private object ImmutabilityProgram:
   final class ImmutableBankAccount(val balance: Int):
