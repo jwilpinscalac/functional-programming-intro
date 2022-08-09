@@ -13,20 +13,27 @@ private object ImmutabilityProgram:
 
   val value: IO[Unit] = IO.delay(ImmutableBankAccount(balance = 0))
     .map { x =>
-      println("deposit 20")
-      x.deposit(amount = 20)
+      IO.delay {
+        println("deposit 20")
+        x.deposit(amount = 20)
+      }
     }.map { x =>
-      println("withdraw 5")
-      x.withdraw(amount = 5)
+      IO.delay {
+        println("withdraw 5")
+        x.unsafeRun().withdraw(amount = 5)
+      }
     }.map { x =>
-      println(x)
-      println(x.balance)
+      IO.delay {
+        val newX = x.unsafeRun()
+        println(newX)
+        println(newX.balance)
+      }
     }
 
   //println(value)
 
 object Immutability extends FunctionalApp:
   override def run: IO[Any] = ImmutabilityProgram.value
-    .map(_ => printSeparator())
+    .map(_ => IO.delay(printSeparator()))
     .map(_ => ImmutabilityProgram.value)
-    .map(_ => println(":-("))
+    .map(_ => IO.delay(println(":-(")))

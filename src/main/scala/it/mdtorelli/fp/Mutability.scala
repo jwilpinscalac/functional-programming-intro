@@ -17,23 +17,31 @@ private object MutabilityProgram:
 
   val value: IO[Unit] = IO.delay(MutableBankAccount(initialBalance = 0))
     .map { x =>
-      println("deposit 20")
-      x.deposit(amount = 20)
-      x
+      IO.delay {
+        println("deposit 20")
+        x.deposit(amount = 20)
+        x
+      }
     }
     .map { x =>
-      println("withdraw 5")
-      x.withdraw(amount = 5)
-      x
+      IO.delay {
+        println("withdraw 5")
+        val newX = x.unsafeRun()
+        newX.withdraw(amount = 5)
+        newX
+      }
     }.map { x =>
-      println(x)
-      println(x.balance)
+      IO.delay {
+        val newX = x.unsafeRun()
+        println(newX)
+        println(newX.balance)
+      }
     }
 
   //println(value)
 
 object Mutability extends FunctionalApp:
   override def run: IO[Any] = MutabilityProgram.value
-    .map(_ => printSeparator())
+    .map(_ => IO.delay(printSeparator()))
     .map(_ => MutabilityProgram.value)
-    .map(_ => println(":-("))
+    .map(_ => IO.delay(println(":-(")))
