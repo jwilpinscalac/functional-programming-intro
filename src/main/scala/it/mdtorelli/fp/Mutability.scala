@@ -36,12 +36,12 @@ private object MutabilityProgram:
         println(newX)
         println(newX.balance)
       }
-    }
+    }.unsafeRun()
 
   //println(value)
 
 object Mutability extends FunctionalApp:
   override def run: IO[Any] = MutabilityProgram.value
-    .map(_ => IO.delay(printSeparator()))
-    .map(_ => MutabilityProgram.value)
-    .map(_ => IO.delay(println(":-(")))
+    .map(_ => IO.delay(printSeparator())).unsafeRun()
+    .map(_ => MutabilityProgram.value).unsafeRun()
+    .map(_ => IO.delay(println(":-("))).unsafeRun()

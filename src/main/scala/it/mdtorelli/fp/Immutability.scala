@@ -28,12 +28,12 @@ private object ImmutabilityProgram:
         println(newX)
         println(newX.balance)
       }
-    }
+    }.unsafeRun()
 
   //println(value)
 
 object Immutability extends FunctionalApp:
   override def run: IO[Any] = ImmutabilityProgram.value
-    .map(_ => IO.delay(printSeparator()))
-    .map(_ => ImmutabilityProgram.value)
-    .map(_ => IO.delay(println(":-(")))
+    .map(_ => IO.delay(printSeparator())).unsafeRun()
+    .map(_ => ImmutabilityProgram.value).unsafeRun()
+    .map(_ => IO.delay(println(":-("))).unsafeRun()
