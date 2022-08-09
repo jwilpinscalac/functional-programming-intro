@@ -6,9 +6,7 @@ import it.mdtorelli.fp.util.*
 
 private object MutabilityProgram:
   final class MutableBankAccount(initialBalance: Int):
-    private var currentBalance: Int =
-      Console.println("launching rockets to space")
-      initialBalance
+    private var currentBalance: Int = initialBalance
 
     def balance: Int = currentBalance
 
@@ -18,12 +16,9 @@ private object MutabilityProgram:
 
     override def toString: String = s"MutableBankAccount($balance)"
 
-  val tooEarly = MutableBankAccount(0)
-
   val value: IO[Unit] =
     for
-      _ <- println("starting...")
-      x = tooEarly
+      x <- IO.delay(MutableBankAccount(0))
       _ <- println("deposit 20")
       _ <- IO.delay(x.deposit(amount = 20))
       _ <- println("withdraw 5")
@@ -35,11 +30,10 @@ private object MutabilityProgram:
   //println(value)
 
 object Mutability extends FunctionalApp:
-  MutabilityProgram.value
-  override def run: IO[Any] = IO.unit
-//    for
-//      _ <- MutabilityProgram.value
-//      _ <- printSeparator()
-//      _ <- MutabilityProgram.value
-//      _ <- println(";-D")
-//    yield ()
+  override def run: IO[Any] =
+    for
+      _ <- MutabilityProgram.value
+      _ <- printSeparator()
+      _ <- MutabilityProgram.value
+      _ <- println(";-D")
+    yield ()

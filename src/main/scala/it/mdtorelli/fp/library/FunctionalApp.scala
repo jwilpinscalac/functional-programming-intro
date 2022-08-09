@@ -1,8 +1,13 @@
 package it.mdtorelli.fp.library
 
+import it.mdtorelli.fp.library.console.*
+
 trait FunctionalApp extends App:
   def run: IO[Any]
-  
-  print(Console.BLUE)
-  run.unsafeRun()
-  print(Console.RESET)
+
+  (for
+    _ <- print(Console.BLUE)
+    _ <- run
+    _ <- print(Console.RESET)
+  yield ()).unsafeRun()
+
