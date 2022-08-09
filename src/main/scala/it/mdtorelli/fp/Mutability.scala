@@ -16,32 +16,30 @@ private object MutabilityProgram:
     override def toString: String = s"MutableBankAccount($balance)"
 
   val value: IO[Unit] = IO.delay(MutableBankAccount(initialBalance = 0))
-    .map { x =>
+    .flatMap { x =>
       IO.delay {
         println("deposit 20")
         x.deposit(amount = 20)
         x
       }
     }
-    .map { x =>
+    .flatMap { x =>
       IO.delay {
         println("withdraw 5")
-        val newX = x.unsafeRun()
-        newX.withdraw(amount = 5)
-        newX
+        x.withdraw(amount = 5)
+        x
       }
-    }.map { x =>
+    }.flatMap { x =>
       IO.delay {
-        val newX = x.unsafeRun()
-        println(newX)
-        println(newX.balance)
+        println(x)
+        println(x.balance)
       }
-    }.unsafeRun()
+    }
 
   //println(value)
 
 object Mutability extends FunctionalApp:
   override def run: IO[Any] = MutabilityProgram.value
-    .map(_ => IO.delay(printSeparator())).unsafeRun()
-    .map(_ => MutabilityProgram.value).unsafeRun()
-    .map(_ => IO.delay(println(":-("))).unsafeRun()
+    .flatMap(_ => IO.delay(printSeparator()))
+    .flatMap(_ => MutabilityProgram.value)
+    .flatMap(_ => IO.delay(println(":-)")))
