@@ -36,3 +36,15 @@ object Immutability extends ImmutabilityProgram[IO] with FunctionalApp:
       _ <- program
       _ <- println(";-O")
     yield ()
+
+import it.mdtorelli.fp.zio.ZIOMonad.{*, given}
+import it.mdtorelli.fp.zio.console.ZIOFunctionalConsole.{*, given}
+
+object ZIOImmutability extends ImmutabilityProgram[_root_.zio.Task] with _root_.zio.ZIOAppDefault:
+  override def run: _root_.zio.Task[Unit] =
+    for
+      _ <- program
+      _ <- printSeparator()
+      _ <- program
+      _ <- println(";-O")
+    yield ()

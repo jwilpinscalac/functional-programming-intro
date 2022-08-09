@@ -40,3 +40,15 @@ object Mutability extends MutabilityProgram[IO] with FunctionalApp:
       _ <- program
       _ <- println(";-O")
     yield ()
+
+import it.mdtorelli.fp.zio.ZIOMonad.{*, given}
+import it.mdtorelli.fp.zio.console.ZIOFunctionalConsole.{*, given}
+
+object ZIOMutability extends MutabilityProgram[_root_.zio.Task] with _root_.zio.ZIOAppDefault:
+  override def run: _root_.zio.Task[Unit] =
+    for
+      _ <- program
+      _ <- printSeparator()
+      _ <- program
+      _ <- println(";-O")
+    yield ()
