@@ -1,9 +1,11 @@
 package it.mdtorelli.fp
 
 import it.mdtorelli.fp.library.*
-import it.mdtorelli.fp.library.console.FunctionalConsole.*
+import it.mdtorelli.fp.library.console.FunctionalConsole
 
-private object MutabilityProgram:
+private trait MutabilityProgram[F[_]](using F: Monad[F], console: FunctionalConsole[F]):
+  import console.*
+
   final class MutableBankAccount(initialBalance: Int):
     private var currentBalance: Int = initialBalance
 
@@ -15,24 +17,26 @@ private object MutabilityProgram:
 
     override def toString: String = s"MutableBankAccount($balance)"
 
-  val value: IO[Unit] =
+  val program: F[Unit] =
     for
-      x <- IO.delay(MutableBankAccount(0))
+      x <- F.pure(MutableBankAccount(0))
       _ <- println("deposit 20")
-      _ <- IO.delay(x.deposit(amount = 20))
+      _ <- F.pure(x.deposit(amount = 20))
       _ <- println("withdraw 5")
-      _ <- IO.delay(x.withdraw(amount = 5))
+      _ <- F.pure(x.withdraw(amount = 5))
       _ <- println(x)
       _ <- println(x.balance)
     yield ()
 
   //println(value)
 
-object Mutability extends FunctionalApp:
+object Mutability extends MutabilityProgram[IO] with FunctionalApp:
+  import library.console.FunctionalConsole.*
+
   override def run: IO[Any] =
     for
-      _ <- MutabilityProgram.value
+      _ <- program
       _ <- printSeparator()
-      _ <- MutabilityProgram.value
-      _ <- println(";-D")
+      _ <- program
+      _ <- println(";-O")
     yield ()
