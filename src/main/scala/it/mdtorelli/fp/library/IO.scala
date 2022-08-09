@@ -2,12 +2,12 @@ package it.mdtorelli.fp.library
 
 type Thunk[+A] = () => A
 
-final case class IO[+A](unsafeRun: Thunk[A]):
-  def map[B](f: A => B): IO[B] = IO.delay {
+final case class IO[+A](unsafeRun: Thunk[A]) extends Monad[A]:
+  override def map[B](f: A => B): IO[B] = IO.delay {
     f(unsafeRun())
   }
 
-  def flatMap[B](f: A => IO[B]): IO[B] = IO.delay {
+  override def flatMap[B](f: A => IO[B]): IO[B] = IO.delay {
     f(unsafeRun()).unsafeRun()
   }
 
