@@ -11,28 +11,21 @@ private object ImmutabilityProgram:
 
     override def toString: String = s"ImmutableBankAccount($balance)"
 
-  val value: IO[Unit] = IO.delay(ImmutableBankAccount(balance = 0))
-    .flatMap { x =>
-      IO.delay {
-        println("deposit 20")
-        x.deposit(amount = 20)
-      }
-    }.flatMap { x =>
-      IO.delay {
-        println("withdraw 5")
-        x.withdraw(amount = 5)
-      }
-    }.flatMap { x =>
-      IO.delay {
-        println(x)
-        println(x.balance)
-      }
-    }
+  val value: IO[Unit] =
+    for
+      x1 <- IO.delay(ImmutableBankAccount(balance = 0))
+      x2 <- IO.delay { println("deposit 20"); x1.deposit(amount = 20) }
+      x3 <- IO.delay { println("withdraw 5"); x2.withdraw(amount = 5) }
+      _ <- IO.delay { println(x3); println(x3.balance) }
+    yield ()
 
   //println(value)
 
 object Immutability extends FunctionalApp:
-  override def run: IO[Any] = ImmutabilityProgram.value
-    .flatMap(_ => IO.delay(printSeparator()))
-    .flatMap(_ => ImmutabilityProgram.value)
-    .flatMap(_ => IO.delay(println(":-)")))
+  override def run: IO[Any] =
+    for
+      _ <- ImmutabilityProgram.value
+      _ <- IO.delay(printSeparator())
+      _ <- ImmutabilityProgram.value
+      _ <- IO.delay(println(":-D"))
+    yield ()
