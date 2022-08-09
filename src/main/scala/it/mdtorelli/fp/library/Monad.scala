@@ -1,4 +1,4 @@
 package it.mdtorelli.fp.library
 
-trait Monad[+A] extends Functor[A]:
-  def flatMap[B](f: A => IO[B]): IO[B]
+trait Monad[F[_]] extends Functor[F]:
+  extension [A](fa: F[A]) def flatMap[B](f: A => F[B]): F[B]

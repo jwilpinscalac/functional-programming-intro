@@ -1,4 +1,4 @@
 package it.mdtorelli.fp.library
 
-trait Functor[+A]:
-  def map[B](f: A => B): IO[B]
+trait Functor[F[_]]:
+  extension [A](fa: F[A]) def map[B](f: A => B): F[B]
