@@ -27,3 +27,6 @@ private object ImmutabilityProgram:
 
 object Immutability extends FunctionalApp:
   override def run: IO[Any] = ImmutabilityProgram.value
+    .map(_ => printSeparator())
+    .map(_ => ImmutabilityProgram.value)
+    .map(_ => println(":-("))

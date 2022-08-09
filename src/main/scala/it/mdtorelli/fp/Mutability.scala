@@ -34,3 +34,6 @@ private object MutabilityProgram:
 
 object Mutability extends FunctionalApp:
   override def run: IO[Any] = MutabilityProgram.value
+    .map(_ => printSeparator())
+    .map(_ => MutabilityProgram.value)
+    .map(_ => println(":-("))
