@@ -1,4 +1,7 @@
 package it.mdtorelli.fp
 package util
 
-def printSeparator(): Unit = println("-" * 50)
+import it.mdtorelli.fp.library.*
+import it.mdtorelli.fp.library.console.*
+
+def printSeparator(): IO[Unit] = println("-" * 50)

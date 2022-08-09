@@ -1,6 +1,7 @@
 package it.mdtorelli.fp
 
 import it.mdtorelli.fp.library.*
+import it.mdtorelli.fp.library.console.*
 import util.*
 
 private object ImmutabilityProgram:
@@ -14,9 +15,12 @@ private object ImmutabilityProgram:
   val value: IO[Unit] =
     for
       x1 <- IO.delay(ImmutableBankAccount(balance = 0))
-      x2 <- IO.delay { println("deposit 20"); x1.deposit(amount = 20) }
-      x3 <- IO.delay { println("withdraw 5"); x2.withdraw(amount = 5) }
-      _ <- IO.delay { println(x3); println(x3.balance) }
+      _  <- println("deposit 20")
+      x2 <- IO.delay(x1.deposit(amount = 20))
+      _  <- println("withdraw 5")
+      x3 <- IO.delay(x2.withdraw(amount = 5))
+      _  <- println(x3)
+      _  <- println(x3.balance)
     yield ()
 
   //println(value)
@@ -25,7 +29,7 @@ object Immutability extends FunctionalApp:
   override def run: IO[Any] =
     for
       _ <- ImmutabilityProgram.value
-      _ <- IO.delay(printSeparator())
+      _ <- printSeparator()
       _ <- ImmutabilityProgram.value
-      _ <- IO.delay(println(":-D"))
+      _ <- println(";-D")
     yield ()
